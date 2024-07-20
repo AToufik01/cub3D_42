@@ -6,7 +6,7 @@
 /*   By: ataoufik <ataoufik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 11:34:46 by ataoufik          #+#    #+#             */
-/*   Updated: 2024/07/19 19:38:42 by ataoufik         ###   ########.fr       */
+/*   Updated: 2024/07/20 18:49:00 by ataoufik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,15 @@
 
 int ft_update_position_player(t_data *data)
 {
-
-    data->player->rotationAngle = data->player->turnDirection * data->player->rotationSpeed;
+    data->player->rotationAngle += (data->player->turnDirection * data->player->rotationSpeed);
     int move_step;
-    move_step =data->player->walkDirection +  data->player->walkDirection * data->player->moveSpeed;
-    printf("move_step   = %d\n",move_step);
-    printf("rotationAngle   = %f\n",data->player->rotationAngle);
+    move_step = data->player->walkDirection * data->player->moveSpeed;
     data->player->x = data->player->x + cos(data->player->rotationAngle) * move_step;
     data->player->y = data->player->y + sin(data->player->rotationAngle) * move_step;
     return (0);
 }
+
+
 void ft_update_env(void  *d)
 {
     t_data *data = (t_data *)d;

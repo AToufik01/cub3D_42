@@ -6,7 +6,7 @@
 /*   By: ataoufik <ataoufik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 11:36:08 by ataoufik          #+#    #+#             */
-/*   Updated: 2024/07/19 20:51:32 by ataoufik         ###   ########.fr       */
+/*   Updated: 2024/07/20 20:19:18 by ataoufik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,22 +29,35 @@ void    draw_map(t_data *data,int size_x,int size_y , int color)
         x++;
     }
 }
-void    draw_view_player(t_data *data,int color)
+void draw_line(t_data *data, int x0, int y0, int x1, int y1, int color)
 {
-    float a_cof;
-    int x = data->player->x + cos(data->player->rotationAngle) * 30;
-    int y = data->player->y + sin(data->player->rotationAngle) * 30;
-    float x1 = data->player->x;
-    
-    a_cof = (y - data->player->y) / (x - data->player->x);
-
-    while(x1 <= x)
+    int dx = x1 - x0;
+    int dy = y1 - y0;
+    int steps = abs(dx) > abs(dy) ? abs(dx) : abs(dy);
+    float Xinc = dx / (float)steps;
+    float Yinc = dy / (float)steps;
+    float X = x0;
+    float Y = y0;
+    int i = 0;
+    while (i <= steps)
     {
-        mlx_put_pixel(data->player->img_player,x1,a_cof * x1,color);
-        x1++;
+        mlx_put_pixel(data->player->img_player, round(X), round(Y), color);
+        X += Xinc;
+        Y += Yinc;
+        i++;
     }
-    
 }
+
+void draw_view_player(t_data *data, int color)
+{
+    int centerX = data->player->img_p_width /2; 
+    int centerY = data->player->img_p_height /2;
+    double x1 = centerX + cos(data->player->rotationAngle) * 40;
+    double y1 = centerY + sin(data->player->rotationAngle) * 40;
+    draw_line(data, centerX, centerY, x1, y1, color);
+}
+
+
 
 void    draw_player(t_data *data,int color)
 {
@@ -52,6 +65,8 @@ void    draw_player(t_data *data,int color)
     int y;
     int px;
     int py;
+    int center_x = data->player->img_p_width / 2;
+    int center_y = data->player->img_p_height / 2;
     int r = data->player->radius;
     x = -r;
     y = -r;
@@ -62,10 +77,11 @@ void    draw_player(t_data *data,int color)
         {
             if (pow(x,2) + pow(y,2)< pow(r,2))
             {
-                px = r + x;
-                py = r + y;
+                px = center_x + x;
+                py = center_y + y;
                 mlx_put_pixel(data->player->img_player,px,py,color);
             }
+                
             y++;
         }
         x++;
@@ -90,9 +106,9 @@ void    ft_render_map(t_data *data)
             tileX = j * TILE_SIZE;
             tileY = i * TILE_SIZE;
             if (data->map->arr_map[i][j] == '1')
-                color = 0x22222;
+                color = 0x686868FF;
             else
-                color = 0xFFFFFF;
+                color = 0x2A2A2AFF;
                 draw_map(data,tileX,tileY,color);
             j++;
         }
@@ -102,12 +118,25 @@ void    ft_render_map(t_data *data)
     
 }
 
-
+void fill_image_with_color(mlx_image_t *image, int width, int height, int color)
+{
+    for (int x = 0; x < width; x++)
+    {
+        for (int y = 0; y < height; y++)
+        {
+            mlx_put_pixel(image, x, y, color);
+        }
+    }
+}
 void    ft_render_player(t_data *data)
 {
     int color = 0xFF0000FF;
-    data->player->img_player = mlx_new_image(data->mlx, 2 * data->player->radius,2* data->player->radius);
+    int color_rays =0xD7B0A1FF;
+    int view_color = 0x00FF00FF;
+    data->player->img_player = mlx_new_image(data->mlx, data->player->img_p_width,data->player->img_p_height);
+    // fill_image_with_color(data->player->img_player, data->player->img_p_width,data->player->img_p_height, 0xA67FBEFF);
     draw_player(data,color);
-    draw_view_player(data,color);
-    mlx_image_to_window(data->mlx,data->player->img_player,data->player->x,data->player->y);
+    draw_view_player(data,view_color);
+    ft_cast_all_rays(data,color_rays);
+    mlx_image_to_window(data->mlx,data->player->img_player,data->player->x -100,data->player->y - 100);// HHHDHHD
 }

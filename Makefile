@@ -5,7 +5,7 @@ CFLAGS= -g -fsanitize=address #-Wall -Wextra -Werror
 LDFLAGS= -Iinclude -lglfw -L/Users/ataoufik/.brew/opt/glfw/lib/ -L. -lmlx42 -framework OpenGL -framework AppKit
 RM=rm -f
 OBJ_DIR=obj
-SRC=main.c game_update.c render_env.c print_and_debug.c
+SRC=main.c game_update.c render_env.c print_and_debug.c raycasting.c
 OBJ=$(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
 
 all: $(NAME)
