@@ -6,7 +6,7 @@
 /*   By: ataoufik <ataoufik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 11:36:08 by ataoufik          #+#    #+#             */
-/*   Updated: 2024/07/20 20:19:18 by ataoufik         ###   ########.fr       */
+/*   Updated: 2024/07/21 18:45:17 by ataoufik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,12 @@ void draw_line(t_data *data, int x0, int y0, int x1, int y1, int color)
 
 void draw_view_player(t_data *data, int color)
 {
-    int centerX = data->player->img_p_width /2; 
-    int centerY = data->player->img_p_height /2;
+    int centerX = data->player->x - 4 + data->player->radius/2; 
+    int centerY = data->player->y - 4 + data->player->radius/2;
     double x1 = centerX + cos(data->player->rotationAngle) * 40;
     double y1 = centerY + sin(data->player->rotationAngle) * 40;
     draw_line(data, centerX, centerY, x1, y1, color);
 }
-
-
 
 void    draw_player(t_data *data,int color)
 {
@@ -65,8 +63,6 @@ void    draw_player(t_data *data,int color)
     int y;
     int px;
     int py;
-    int center_x = data->player->img_p_width / 2;
-    int center_y = data->player->img_p_height / 2;
     int r = data->player->radius;
     x = -r;
     y = -r;
@@ -77,8 +73,8 @@ void    draw_player(t_data *data,int color)
         {
             if (pow(x,2) + pow(y,2)< pow(r,2))
             {
-                px = center_x + x;
-                py = center_y + y;
+                px = data->player->x + x;
+                py = data->player->y + y;
                 mlx_put_pixel(data->player->img_player,px,py,color);
             }
                 
@@ -133,10 +129,11 @@ void    ft_render_player(t_data *data)
     int color = 0xFF0000FF;
     int color_rays =0xD7B0A1FF;
     int view_color = 0x00FF00FF;
+    // mlx_delete_image(data->mlx,data->player->img_player);
     data->player->img_player = mlx_new_image(data->mlx, data->player->img_p_width,data->player->img_p_height);
     // fill_image_with_color(data->player->img_player, data->player->img_p_width,data->player->img_p_height, 0xA67FBEFF);
     draw_player(data,color);
     draw_view_player(data,view_color);
     ft_cast_all_rays(data,color_rays);
-    mlx_image_to_window(data->mlx,data->player->img_player,data->player->x -100,data->player->y - 100);// HHHDHHD
+    mlx_image_to_window(data->mlx,data->player->img_player,0,0);// HHHDHHD
 }

@@ -66,13 +66,20 @@ void ft_render_player(t_data *data);
 // int key_release(int keycode, t_data *data);
 // ?
 
+int ft_check_wall(t_data *data, int x,int y);
+
+
 
 // raycasting
 void    ft_cast_all_rays(t_data *data,int color);
+double    ft_intersection_rays_y(t_data *data ,float rayangle);
 // void initialize_rays(t_data *data,int color);
-void draw_view_rays(t_data *data,float rayangle ,int color);
+// void draw_view_rays(t_data *data,float rayangle ,int color);
+void draw_view_rays(t_data *data,float rayangle ,double distance,int color);
 void draw_line(t_data *data, int x0, int y0, int x1, int y1, int color);
 //
+
+double ft_normalizeangle(double rayangle);
 void     printf_para(t_data *data);
 //
 #endif

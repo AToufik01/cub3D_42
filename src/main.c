@@ -6,7 +6,7 @@
 /*   By: ataoufik <ataoufik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 03:09:41 by ataoufik          #+#    #+#             */
-/*   Updated: 2024/07/20 20:15:30 by ataoufik         ###   ########.fr       */
+/*   Updated: 2024/07/21 18:50:33 by ataoufik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,11 @@ int instalize_data(t_data   *data,t_map *map, t_player *player)
         map->arr_map[i] = (char *)malloc((strlen(map1[i]) + 1) * sizeof(char));
         strcpy(map->arr_map[i], map1[i]); /// 
     }
-    
     player->x = map->width * TILE_SIZE / 2;
     player->y = map->height * TILE_SIZE / 2;
-    player->radius = 7;
-    player->img_p_width = 600;
-    player->img_p_height =600 ;
+    player->radius = 8;
+    player->img_p_width = map->width* TILE_SIZE;//
+    player->img_p_height =map->height*TILE_SIZE ;//
     player->view_player = TILE_SIZE;
     player->turnDirection = 0;
     player->walkDirection = 0;
