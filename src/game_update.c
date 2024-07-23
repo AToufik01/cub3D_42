@@ -6,7 +6,7 @@
 /*   By: ataoufik <ataoufik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 11:34:46 by ataoufik          #+#    #+#             */
-/*   Updated: 2024/07/23 15:07:03 by ataoufik         ###   ########.fr       */
+/*   Updated: 2024/07/23 20:33:56 by ataoufik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@ int ft_check_wall(t_data *data, int x,int y)
 {
     int x_map = round(x / TILE_SIZE);
     int y_map = round(y / TILE_SIZE);
-    printf("x_map   %d\n",x_map);
-    printf("y_map   %d\n",y_map);
     if (x_map < 0 || x_map >=data->map->width || y_map < 0 || y_map >= data->map->height)
         return 1;
     if (data->map->arr_map[y_map][x_map] == '1')

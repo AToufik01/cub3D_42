@@ -11,7 +11,7 @@
 
 #include "MLX42.h"
 #define TILE_SIZE 64
-#define NBR_RAYS 80
+#define NBR_RAYS 1
 #define FOV_ANGLE (60 * (M_PI / 180))
 
 typedef struct s_player
@@ -33,8 +33,6 @@ typedef struct s_player
 
 typedef struct s_map
 {
-    // int x;
-    // int y;
     // int fd;
     int width;
     int height;
@@ -72,8 +70,8 @@ int ft_check_wall(t_data *data, int x,int y);
 
 // raycasting
 void    ft_cast_all_rays(t_data *data,int color);
-double ft_rays_horizontal(t_data *data, float rayangle);
-double  ft_intersection(t_data *data, float rayangle);
+double ft_rays_horizontal(t_data *data, float ray_angle);
+double  ft_intrecetion(t_data *data, float rayangle);
 double ft_rays_vertical(t_data *data, float rayangle);
 // void initialize_rays(t_data *data,int color);
 // void draw_view_rays(t_data *data,float rayangle ,int color);
