@@ -6,7 +6,7 @@
 /*   By: ataoufik <ataoufik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 11:36:08 by ataoufik          #+#    #+#             */
-/*   Updated: 2024/07/21 18:45:17 by ataoufik         ###   ########.fr       */
+/*   Updated: 2024/07/23 15:09:53 by ataoufik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ void draw_line(t_data *data, int x0, int y0, int x1, int y1, int color)
     int i = 0;
     while (i <= steps)
     {
-        mlx_put_pixel(data->player->img_player, round(X), round(Y), color);
+        if (X < data->map->img_map->width && Y < data->map->img_map->height && X>=0 && Y>=0)
+            mlx_put_pixel(data->player->img_player, X, Y, color);
         X += Xinc;
         Y += Yinc;
         i++;
@@ -76,8 +77,7 @@ void    draw_player(t_data *data,int color)
                 px = data->player->x + x;
                 py = data->player->y + y;
                 mlx_put_pixel(data->player->img_player,px,py,color);
-            }
-                
+            } 
             y++;
         }
         x++;
@@ -114,13 +114,14 @@ void    ft_render_map(t_data *data)
     
 }
 
-void fill_image_with_color(mlx_image_t *image, int width, int height, int color)
+
+void rest_image(mlx_image_t *image)
 {
-    for (int x = 0; x < width; x++)
+    for (uint32_t x = 0; x < image->width; x++)
     {
-        for (int y = 0; y < height; y++)
+        for (uint32_t y = 0; y < image->height; y++)
         {
-            mlx_put_pixel(image, x, y, color);
+            mlx_put_pixel(image, x, y, 0);
         }
     }
 }
@@ -130,10 +131,10 @@ void    ft_render_player(t_data *data)
     int color_rays =0xD7B0A1FF;
     int view_color = 0x00FF00FF;
     // mlx_delete_image(data->mlx,data->player->img_player);
-    data->player->img_player = mlx_new_image(data->mlx, data->player->img_p_width,data->player->img_p_height);
-    // fill_image_with_color(data->player->img_player, data->player->img_p_width,data->player->img_p_height, 0xA67FBEFF);
+    // data->player->img_player = mlx_new_image(data->mlx, data->player->img_p_width,data->player->img_p_height);
+    rest_image(data->player->img_player);
     draw_player(data,color);
     draw_view_player(data,view_color);
     ft_cast_all_rays(data,color_rays);
-    mlx_image_to_window(data->mlx,data->player->img_player,0,0);// HHHDHHD
+    // mlx_image_to_window(data->mlx,data->player->img_player,0,0);// HHHDHHD
 }
