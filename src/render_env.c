@@ -6,7 +6,7 @@
 /*   By: ataoufik <ataoufik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 11:36:08 by ataoufik          #+#    #+#             */
-/*   Updated: 2024/07/23 21:55:28 by ataoufik         ###   ########.fr       */
+/*   Updated: 2024/07/24 23:13:05 by ataoufik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ void    draw_map(t_data *data,int size_x,int size_y , int color)
     int y;
     x = 0;
     y = 0;
-    while (x < TILE_SIZE - 1)
+    while (x < TILE_SIZE )
     {
         y = 0;
-        while (y < TILE_SIZE - 1)
+        while (y < TILE_SIZE )
         {
             mlx_put_pixel(data->map->img_map,size_x + x,size_y + y,color);
             y++;

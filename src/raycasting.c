@@ -6,7 +6,7 @@
 /*   By: ataoufik <ataoufik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 17:04:53 by ataoufik          #+#    #+#             */
-/*   Updated: 2024/07/23 22:02:08 by ataoufik         ###   ########.fr       */
+/*   Updated: 2024/07/24 23:27:59 by ataoufik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,33 +22,23 @@ void    ft_cast_all_rays(t_data *data,int color)
     while (i < NBR_RAYS)
     {
         rayangle = ft_normalizeangle(rayangle);
-        dist = ft_intrecetion(data,rayangle);
-        // dist = ft_rays_vertical(data ,rayangle);
-        // dist = ft_rays_horizontal(data ,rayangle);
-        draw_view_rays(data,rayangle ,dist,color);
+        ft_intrecetion(data,rayangle);
         rayangle += FOV_ANGLE / NBR_RAYS;
         i++;
     }
 }
-double  ft_intrecetion(t_data *data, float rayangle)
+void  ft_intrecetion(t_data *data, double rayangle)
 {
-    double dx;
-    double dy;
-    dy = ft_rays_horizontal(data ,rayangle);
-    dx = ft_rays_vertical(data ,rayangle);
-    if (dy>=dx)
-        return dx;
+    t_ray horizontal;
+    t_ray vertical;
+    horizontal = ft_rays_horizontal(data ,rayangle);
+    vertical = ft_rays_vertical(data ,rayangle);
+    double d_h = pow(horizontal.dx , 2) + pow(horizontal.dy, 2);
+    double d_v = pow(vertical.dx , 2) + pow(vertical.dy, 2);;
+    if (d_h<=d_v)
+        draw_line(data,data->player->x,data->player->y,data->player->x +horizontal.dx,data->player->y+horizontal.dy,0x0000A3FF);
     else
-        return dy;
-}
-void draw_view_rays(t_data *data,float rayangle ,double distance,int color)
-{
-    int centerX = data->player->x - 4 + data->player->radius/2; 
-    int centerY = data->player->y - 4 + data->player->radius/2;
-    int x1 = centerX + cos(rayangle) * distance;
-    int y1 = centerY + sin(rayangle) * distance;
-     
-    draw_line(data, centerX, centerY, x1, y1, color); //fewwe
+        draw_line(data,data->player->x,data->player->y,data->player->x +vertical.dx,data->player->y+vertical.dy,0xA3A300FF);
 }
     
 double ft_normalizeangle(double rayangle)
@@ -59,59 +49,52 @@ double ft_normalizeangle(double rayangle)
     return rayangle;
 }
 
-double ft_rays_vertical(t_data *data, float ray_angle)
+t_ray ft_rays_vertical(t_data *data, double ray_angle)
 {
-    double dx, dy;
+    double dx;
+    double dy;
     double x_pos_intercept;
     int direct;
-    double distance = 0;
-    direct = -1;
+    direct = 1;
     
-    x_pos_intercept = floor(data->player->x / TILE_SIZE) * TILE_SIZE;
-    if (ray_angle > 0 && ray_angle < M_PI)
+    x_pos_intercept = (floor(data->player->x / TILE_SIZE) + 1)* TILE_SIZE;
+    if (ray_angle > 0.5 * M_PI  && ray_angle < 1.5 * M_PI)
     {
-        direct = 1;
-        x_pos_intercept += TILE_SIZE; 
+        direct = -1;
+        x_pos_intercept = floor(data->player->x / TILE_SIZE) * TILE_SIZE;
     }
     dx = x_pos_intercept - data->player->x;
-    dy = dx / tan(ray_angle);
-    int i = 0;
-    while (i < 20)
+    dy = dx * tan(ray_angle);
+    while (1)
     {
-        int new_y = data->player->y  +(dx+direct)/tan(ray_angle);
-        int new_x = data->player->x +direct + dx;
+        int new_x = data->player->x + direct + dx;
+        int new_y = data->player->y  +direct + dy;
         if (ft_check_wall(data, new_x , new_y)==1)
             break;
         else
         {
-            dx += TILE_SIZE* direct  ;
-            dy = dx / tan(ray_angle);
+            dx += TILE_SIZE * direct;
+            dy = dx * tan(ray_angle);
         }
-        i++;
     }
-    // draw_line(data,data->player->x,data->player->y,data->player->x +dx,data->player->y+dy,0x8000FFFF);
-    distance = sqrt((dx * dx) + (dy * dy));
-    return distance;
+    return (t_ray){dx,dy};
 }
 
-
-double ft_rays_horizontal(t_data *data, float ray_angle)
+t_ray ft_rays_horizontal(t_data *data, double ray_angle)
 {
     double dx, dy;
-    double pos_intercept;
+    double y_pos_intercept;
     int direct;
     double distance = 0;
     direct = -1;
-    pos_intercept = floor(data->player->y / TILE_SIZE ) * TILE_SIZE;
+    y_pos_intercept = floor(data->player->y / TILE_SIZE ) * TILE_SIZE;
     if (ray_angle > 0 && ray_angle < M_PI)
     {
         direct = 1;
-        pos_intercept += TILE_SIZE;
+        y_pos_intercept += TILE_SIZE;
     }
-
-    dy = pos_intercept - data->player->y;
+    dy = y_pos_intercept - data->player->y;
     dx = dy / tan(ray_angle);
-    // printf("dx   = %f     ,   dy   = %f\n",dx,dy);
     int i = 0;
     while (i < 10)
     {
@@ -127,8 +110,5 @@ double ft_rays_horizontal(t_data *data, float ray_angle)
         }
         i++;
     }
-    // printf("------------------------------------------\n");
-    distance = sqrt((dx * dx) + (dy * dy));
-
-    return distance;
+    return (t_ray){dx,dy};
 }

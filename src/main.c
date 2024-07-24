@@ -6,7 +6,7 @@
 /*   By: ataoufik <ataoufik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 03:09:41 by ataoufik          #+#    #+#             */
-/*   Updated: 2024/07/23 19:57:42 by ataoufik         ###   ########.fr       */
+/*   Updated: 2024/07/24 23:10:59 by ataoufik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ int instalize_data(t_data   *data,t_map *map, t_player *player)
     player->view_player = TILE_SIZE;
     player->turnDirection = 0;
     player->walkDirection = 0;
-    player->rotationAngle =  3;
+    player->rotationAngle =  2;
     player->moveSpeed = 4.0;
-    player->rotationSpeed = 3 * (M_PI / 180);
+    player->rotationSpeed = 5* (M_PI / 180);
     data->map = map;
     data->player = player;
 
