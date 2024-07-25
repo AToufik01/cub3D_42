@@ -6,7 +6,7 @@
 /*   By: ataoufik <ataoufik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 11:34:46 by ataoufik          #+#    #+#             */
-/*   Updated: 2024/07/23 20:33:56 by ataoufik         ###   ########.fr       */
+/*   Updated: 2024/07/25 13:39:21 by ataoufik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int ft_update_position_player(t_data *data)
 void ft_update_env(void  *d)
 {
     t_data *data = (t_data *)d;
-    
+    //  ft_render_map(data);
     if (mlx_is_key_down(data->mlx, MLX_KEY_UP) == 1|| mlx_is_key_down(data->mlx, MLX_KEY_DOWN) == 1)
         data->player->turnDirection = 0;
     else if (mlx_is_key_down(data->mlx, MLX_KEY_RIGHT) == 1 || mlx_is_key_down(data->mlx, MLX_KEY_LEFT) == 1)
@@ -57,7 +57,13 @@ void ft_update_env(void  *d)
         ft_update_position_player(data);
         ft_render_player(data);
     }
-    else if (mlx_is_key_down(data->mlx, MLX_KEY_LEFT) == 1) //
+    else if (mlx_is_key_down(data->mlx, MLX_KEY_DOWN) == 1) //
+    {   
+        data->player->walkDirection = -1;
+        ft_update_position_player(data);
+        ft_render_player(data);
+    }
+    if (mlx_is_key_down(data->mlx, MLX_KEY_LEFT) == 1) //
     {
         data->player->turnDirection = -1;
         ft_update_position_player(data);
@@ -70,13 +76,9 @@ void ft_update_env(void  *d)
         
         ft_render_player(data);
     }
-    else if (mlx_is_key_down(data->mlx, MLX_KEY_DOWN) == 1) //
-    {   
-        data->player->walkDirection = -1;
-        ft_update_position_player(data);
-        ft_render_player(data);
-    }
     else if (mlx_is_key_down(data->mlx, MLX_KEY_ESCAPE) == 1) //
        mlx_close_window(data->mlx);
+    // rest_image(data->map->img_map);
+    // ft_render_map(data);
 }
 

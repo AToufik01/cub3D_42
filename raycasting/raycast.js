@@ -10,13 +10,15 @@ const FOV_ANGLE = 60 * (Math.PI / 180);
 const WALL_STRIP_WIDTH = 1; 
 const NUM_RAYS = WINDOW_WIDTH / WALL_STRIP_WIDTH;
 
+const MINIMAP_SCALE_FACTOR = 0.2;
+
 class Map {
     constructor() {
         this.grid = [
             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
             [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],
             [1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1],
-            [1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1],
+            [1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1],
             [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1],
             [1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1],
             [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
@@ -42,7 +44,12 @@ class Map {
                 var tileColor = this.grid[i][j] == 1 ? "#222" : "#fff";
                 stroke("#222");
                 fill(tileColor);
-                rect(tileX, tileY, TILE_SIZE, TILE_SIZE);
+                rect(
+                    MINIMAP_SCALE_FACTOR * tileX,
+                    MINIMAP_SCALE_FACTOR * tileY,
+                    MINIMAP_SCALE_FACTOR * TILE_SIZE,
+                    MINIMAP_SCALE_FACTOR * TILE_SIZE
+                );
             }
         }
     }
@@ -51,13 +58,13 @@ class Map {
 class Player {
     constructor() {
         this.x = WINDOW_WIDTH / 2;
-        this.y = WINDOW_HEIGHT / 2;
-        this.radius = 3;
+        this.y = WINDOW_HEIGHT / 7;
+        this.radius = 4;
         this.turnDirection = 0; // -1 if left, +1 if right
         this.walkDirection = 0; // -1 if back, +1 if front
         this.rotationAngle = Math.PI / 2;
-        this.moveSpeed = 2.0;
-        this.rotationSpeed = 2 * (Math.PI / 180);
+        this.moveSpeed = 4.0;
+        this.rotationSpeed = 3 * (Math.PI / 180);
     }
     update() {
         this.rotationAngle += this.turnDirection * this.rotationSpeed;
@@ -74,15 +81,19 @@ class Player {
     }
     render() {
         noStroke();
-        fill("red");
-        circle(this.x, this.y, this.radius);
-        /*stroke("red");
+        fill("blue");
+        circle(
+            MINIMAP_SCALE_FACTOR * this.x,
+            MINIMAP_SCALE_FACTOR * this.y,
+            MINIMAP_SCALE_FACTOR * this.radius
+        );
+        stroke("blue");
         line(
-            this.x,
-            this.y,
-            this.x + Math.cos(this.rotationAngle) * 30,
-            this.y + Math.sin(this.rotationAngle) * 30
-        );*/
+            MINIMAP_SCALE_FACTOR * this.x,
+            MINIMAP_SCALE_FACTOR * this.y,
+            MINIMAP_SCALE_FACTOR * (this.x + Math.cos(this.rotationAngle) * 30),
+            MINIMAP_SCALE_FACTOR * (this.y + Math.sin(this.rotationAngle) * 30)
+        );
     }
 }
 
@@ -129,12 +140,9 @@ class Ray {
         var nextHorzTouchX = xintercept;
         var nextHorzTouchY = yintercept;
 
-        if (this.isRayFacingUp)
-            nextHorzTouchY--;
-
         // Increment xstep and ystep until we find a wall
         while (nextHorzTouchX >= 0 && nextHorzTouchX <= WINDOW_WIDTH && nextHorzTouchY >= 0 && nextHorzTouchY <= WINDOW_HEIGHT) {
-            if (grid.hasWallAt(nextHorzTouchX, nextHorzTouchY)) {
+            if (grid.hasWallAt(nextHorzTouchX, nextHorzTouchY - (this.isRayFacingUp ? 1 : 0))) {
                 foundHorzWallHit = true;
                 horzWallHitX = nextHorzTouchX;
                 horzWallHitY = nextHorzTouchY;
@@ -170,12 +178,9 @@ class Ray {
         var nextVertTouchX = xintercept;
         var nextVertTouchY = yintercept;
 
-        if (this.isRayFacingLeft)
-            nextVertTouchX--;
-
         // Increment xstep and ystep until we find a wall
         while (nextVertTouchX >= 0 && nextVertTouchX <= WINDOW_WIDTH && nextVertTouchY >= 0 && nextVertTouchY <= WINDOW_HEIGHT) {
-            if (grid.hasWallAt(nextVertTouchX, nextVertTouchY)) {
+            if (grid.hasWallAt(nextVertTouchX - (this.isRayFacingLeft ? 1 : 0), nextVertTouchY)) {
                 foundVertWallHit = true;
                 vertWallHitX = nextVertTouchX;
                 vertWallHitY = nextVertTouchY;
@@ -201,12 +206,12 @@ class Ray {
         this.wasHitVertical = (vertHitDistance < horzHitDistance);
     }
     render() {
-        stroke("rgba(255, 0, 0, 0.3)");
+        stroke("rgba(255, 0, 0, 1.0)");
         line(
-            player.x,
-            player.y,
-            this.wallHitX,
-            this.wallHitY
+            MINIMAP_SCALE_FACTOR * player.x,
+            MINIMAP_SCALE_FACTOR * player.y,
+            MINIMAP_SCALE_FACTOR * this.wallHitX,
+            MINIMAP_SCALE_FACTOR * this.wallHitY
         );
     }
 }
@@ -289,8 +294,9 @@ function update() {
 }
 
 function draw() {
+    clear("#212121");
     update();
-
+    
     grid.render();
     for (ray of rays) {
         ray.render();

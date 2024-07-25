@@ -18,3 +18,23 @@ void     printf_para(t_data *data)
     //     printf("%s\n", data->map->arr_map[i]);
 
 }
+void add_1px(t_data *data)
+{
+    int i;
+    int j;
+    i = 0;
+    while(i<data->map->height)
+    {
+        j = 0;
+        while(j<data->map->width)
+        {
+            if (data->map->arr_map[i][j]=='1' && data->map->arr_map[i][j+1]=='0')
+            {
+                mlx_put_pixel(data->map->img_map,j * TILE_SIZE,i * TILE_SIZE,0xFF0000FF);
+                mlx_put_pixel(data->map->img_map,j * TILE_SIZE+1,i * TILE_SIZE+1,0xFF0000FF);
+            }
+            j++;
+        }
+        i++;
+    }
+}

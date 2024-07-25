@@ -6,7 +6,7 @@
 /*   By: ataoufik <ataoufik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 03:09:41 by ataoufik          #+#    #+#             */
-/*   Updated: 2024/07/24 23:10:59 by ataoufik         ###   ########.fr       */
+/*   Updated: 2024/07/25 13:13:45 by ataoufik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ int instalize_data(t_data   *data,t_map *map, t_player *player)
     "1111111111111111111",
     "1011001001001000001",
     "1011000001000001001",
-    "1001001001111101111",
-    "1001110000001001001",
+    "1001001000110101111",
+    "1000110000001001001",
     "1000000000000001001",
     "1001111111111001001",
     "1111000000000001011",
@@ -44,8 +44,8 @@ int instalize_data(t_data   *data,t_map *map, t_player *player)
     player->turnDirection = 0;
     player->walkDirection = 0;
     player->rotationAngle =  2;
-    player->moveSpeed = 4.0;
-    player->rotationSpeed = 5* (M_PI / 180);
+    player->moveSpeed = 2.0;
+    player->rotationSpeed = 3* (M_PI / 180);
     data->map = map;
     data->player = player;
 
@@ -59,11 +59,11 @@ int main()
     t_data  data_mlx;
     
     instalize_data(&data_mlx,&map,&player);
-    // printf_para(&data_mlx);
     data_mlx.mlx = mlx_init((data_mlx.map->width -1) * TILE_SIZE, data_mlx.map->height *TILE_SIZE,"cub3D",1);
     data_mlx.player->img_player = mlx_new_image(data_mlx.mlx, data_mlx.player->img_p_width,data_mlx.player->img_p_height);
-    ft_render_map(&data_mlx);
     ft_render_player(&data_mlx);
+    ft_render_map(&data_mlx);
+    mlx_image_to_window(data_mlx.mlx,data_mlx.map->img_map,0,0);
     mlx_image_to_window(data_mlx.mlx,data_mlx.player->img_player,0,0);
     mlx_loop_hook(data_mlx.mlx,ft_update_env,&data_mlx);
     mlx_loop(data_mlx.mlx);

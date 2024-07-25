@@ -6,7 +6,7 @@
 /*   By: ataoufik <ataoufik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 17:04:53 by ataoufik          #+#    #+#             */
-/*   Updated: 2024/07/24 23:27:59 by ataoufik         ###   ########.fr       */
+/*   Updated: 2024/07/25 12:44:01 by ataoufik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,19 @@
 void    ft_cast_all_rays(t_data *data,int color)
 {
     int i;
-    double dist;
-    dist = 400;
-    double rayangle = data->player->rotationAngle - (FOV_ANGLE / 2);
+    double distance;
+    double rayangle = data->player->rotationAngle - (FOV_ANGLE/ 2);
     i = 0;
     while (i < NBR_RAYS)
     {
         rayangle = ft_normalizeangle(rayangle);
-        ft_intrecetion(data,rayangle);
+        distance = ft_intrecetion(data,rayangle,color);
+        ft_projection3D(data,i,rayangle,distance);
         rayangle += FOV_ANGLE / NBR_RAYS;
         i++;
     }
 }
-void  ft_intrecetion(t_data *data, double rayangle)
+double  ft_intrecetion(t_data *data, double rayangle,int color)
 {
     t_ray horizontal;
     t_ray vertical;
@@ -35,10 +35,16 @@ void  ft_intrecetion(t_data *data, double rayangle)
     vertical = ft_rays_vertical(data ,rayangle);
     double d_h = pow(horizontal.dx , 2) + pow(horizontal.dy, 2);
     double d_v = pow(vertical.dx , 2) + pow(vertical.dy, 2);;
-    if (d_h<=d_v)
-        draw_line(data,data->player->x,data->player->y,data->player->x +horizontal.dx,data->player->y+horizontal.dy,0x0000A3FF);
+    if (d_h<d_v)
+    {
+        draw_line(data,SIZE_MINI_MAP* data->player->x,SIZE_MINI_MAP* data->player->y,SIZE_MINI_MAP* (data->player->x +horizontal.dx) ,SIZE_MINI_MAP* (data->player->y+horizontal.dy),color);
+        return (sqrt(d_h));
+    }
     else
-        draw_line(data,data->player->x,data->player->y,data->player->x +vertical.dx,data->player->y+vertical.dy,0xA3A300FF);
+    {
+        draw_line(data,SIZE_MINI_MAP* data->player->x,SIZE_MINI_MAP* data->player->y,SIZE_MINI_MAP* (data->player->x +vertical.dx),SIZE_MINI_MAP* (data->player->y+vertical.dy),color);
+         return (sqrt(d_v));
+    }
 }
     
 double ft_normalizeangle(double rayangle)
@@ -85,7 +91,6 @@ t_ray ft_rays_horizontal(t_data *data, double ray_angle)
     double dx, dy;
     double y_pos_intercept;
     int direct;
-    double distance = 0;
     direct = -1;
     y_pos_intercept = floor(data->player->y / TILE_SIZE ) * TILE_SIZE;
     if (ray_angle > 0 && ray_angle < M_PI)
@@ -95,10 +100,9 @@ t_ray ft_rays_horizontal(t_data *data, double ray_angle)
     }
     dy = y_pos_intercept - data->player->y;
     dx = dy / tan(ray_angle);
-    int i = 0;
-    while (i < 10)
+    while (1)
     {
-        int new_y = data->player->y+direct+ dy ;
+        int new_y = data->player->y+direct+ dy;
         int new_x = data->player->x +(dy+direct)/tan(ray_angle);
         if (ft_check_wall(data, new_x , new_y)==1)
             break;
@@ -106,9 +110,8 @@ t_ray ft_rays_horizontal(t_data *data, double ray_angle)
         {
             dy += TILE_SIZE * direct ;
             dx = dy / tan(ray_angle);
-            
         }
-        i++;
     }
+
     return (t_ray){dx,dy};
 }
