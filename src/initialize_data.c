@@ -6,7 +6,7 @@
 /*   By: ataoufik <ataoufik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 14:48:28 by ataoufik          #+#    #+#             */
-/*   Updated: 2024/07/29 10:44:19 by ataoufik         ###   ########.fr       */
+/*   Updated: 2024/07/30 13:18:46 by ataoufik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ void init_data(t_data   *data,t_map *map, t_player *player)
     "1111111111111111111",
     "1011001001001000001",
     "1011000001000001001",
-    "1001001000110101111",
-    "1000110000001001001",
+    "1001001000000001111",
+    "1000110000000001001",
     "1000000000000001001",
-    "1001111111111001001",
+    "1001111110000001001",
     "1111000000000001011",
     "1000000001000000001",
     "1111111111111111111"
@@ -33,17 +33,16 @@ void init_data(t_data   *data,t_map *map, t_player *player)
     map->arr_map = (char **)malloc(11 * sizeof(char *));
     for (int i = 0; i < map->height; i++)
     {
-        map->arr_map[i] = (char *)malloc((strlen(map1[i]) + 1) * sizeof(char));
+        map->arr_map[i] = (char *)malloc((strlen(map1[i])+1) * sizeof(char));
         strcpy(map->arr_map[i], map1[i]); /// 
     }
-    player->x = map->width * TILE_SIZE / 2;
+    player->x = map->width * TILE_SIZE / 2 ;
     player->y = map->height * TILE_SIZE / 2;
     player->radius = 5;
-    player->view_player = TILE_SIZE;
     player->turnDirection = 0;
     player->walkDirection = 0;
     player->rotationAngle =  2;
-    player->moveSpeed = 2.0;
+    player->moveSpeed = 6.0;
     player->rotationSpeed = 3* (M_PI / 180);
     data->map = map;
     data->player = player;

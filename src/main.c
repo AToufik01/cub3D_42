@@ -6,7 +6,7 @@
 /*   By: ataoufik <ataoufik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 14:30:18 by ataoufik          #+#    #+#             */
-/*   Updated: 2024/07/29 11:08:07 by ataoufik         ###   ########.fr       */
+/*   Updated: 2024/07/30 12:21:27 by ataoufik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int main()
     t_data  data_mlx;
 
     init_data(&data_mlx,&map,&player);
-    data_mlx.mlx = mlx_init((data_mlx.map->width) * TILE_SIZE,data_mlx.map->height * TILE_SIZE,"cub3D",1);
+    data_mlx.mlx = mlx_init((data_mlx.map->width - 4) * TILE_SIZE,(data_mlx.map->height) * TILE_SIZE,"cub3D",0);
     data_mlx.player->img_player = mlx_new_image(data_mlx.mlx,data_mlx.mlx->width,data_mlx.mlx->height);
     ft_map(&data_mlx);
     ft_player(&data_mlx);

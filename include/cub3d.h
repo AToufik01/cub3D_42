@@ -12,12 +12,12 @@
 #include "MLX42.h"
 #define TILE_SIZE 64
 #define NBR_RAYS 1000
-#define SIZE_MINI_MAP 1
+#define WINDOW_WHIDTH 1000 ///
+#define WINDOW_HEIGHT 1000 ///
+#define WALL_STRIP_WIDTH 1
+#define SIZE_MINI_MAP 0.2
 #define FOV_ANGLE (60 * (M_PI / 180))
 
-
-#define PLAYER_WIDTH 4
-#define PLAYER_HEIGHT 4
 
 typedef struct s_player
 {
@@ -46,7 +46,10 @@ typedef struct s_ray
 {
     float  dx;
     float  dy;
-    float   direct;
+    bool    ray_is_up;
+    bool    ray_is_down;
+    bool    ray_is_left;
+    bool    ray_is_right;
 }   t_ray;
 
 typedef struct s_data
@@ -54,6 +57,7 @@ typedef struct s_data
     mlx_t   *mlx;
     t_map *map;
     t_player *player;
+    t_ray   *ray;
 }   t_data;
 
 void ft_player(t_data *data);
@@ -77,7 +81,7 @@ float  ft_intrecetion(t_data *data, float rayangle,int color);
 void rays(t_data *data, float ray_angle,int color);////
 
 void    ft_projection3D(t_data *data,float i,double ray_angle,double raydistance);
-
+int ft_check_wall_intersection(t_data *data ,float x , float y);
 // void ft_rays_horizontal(t_data *data, float ray_angle);
 
 
@@ -103,8 +107,9 @@ void    ft_projection3D(t_data *data,float i,double ray_angle,double raydistance
 
 // void rest_image(mlx_image_t *image);
 // //
-void draw_wall(t_data *data,float x,float wall_top_pixel ,float wall_bottom_pixel, int color);
+// void draw_wall(t_data *data,float x,float wall_top_pixel ,float wall_bottom_pixel, int color);
 // //
+void draw_wall(t_data *data, int x, int y, int width, int height, int color);
 // double ft_normalizeangle(double rayangle);
 // void     printf_para(t_data *data);
 //

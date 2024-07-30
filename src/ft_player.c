@@ -6,7 +6,7 @@
 /*   By: ataoufik <ataoufik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 15:19:48 by ataoufik          #+#    #+#             */
-/*   Updated: 2024/07/29 11:08:00 by ataoufik         ###   ########.fr       */
+/*   Updated: 2024/07/30 09:54:13 by ataoufik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,18 @@ void rest_image(mlx_image_t *image)
         x++;
     }
 }
-
+int ft_check_wall_intersection(t_data *data ,float x , float y)
+{
+    int x_map = floor(x/ TILE_SIZE);
+    int y_map = floor(y / TILE_SIZE);
+    if (x_map < 0 || x_map >=data->map->width || y_map < 0 || y_map >= data->map->height)
+        return 1;
+    printf("x  %d  y   %d  \n",x_map,y_map);
+    if (data->map->arr_map[y_map][x_map] == '1' && data->map->arr_map[y_map  + 1][x_map -1]=='1')
+        return 1;
+        // ||(data->map->arr_map[y_map][x_map] == '1' && data->map->arr_map[y_map  + 1][x_map + 1]=='1'))
+    return 0;
+}
 int ft_check_wall(t_data *data, float x,float y)
 {
     int x_map = floor(x / TILE_SIZE);
@@ -42,49 +53,25 @@ int ft_check_wall(t_data *data, float x,float y)
     
 }
 
-// int ft_update_position_player(t_data *data)
-// {
-//     data->player->rotationAngle += (data->player->turnDirection * data->player->rotationSpeed);
-//     int move_step;
-//     double new_x;
-//     double new_y;
-//     move_step = data->player->walkDirection * data->player->moveSpeed;
-//     new_x = data->player->x + cos(data->player->rotationAngle) * move_step;
-//     new_y = data->player->y + sin(data->player->rotationAngle) * move_step;
-    
-//     if (ft_check_wall(data, new_x,new_y) != 1)
-//     {
-//         data->player->x = new_x;
-//         data->player->y = new_y;
-//     }
-//     return (0);
-// }
-
 int ft_update_position_player(t_data *data)
 {
-    // Update the player's rotation angle
     data->player->rotationAngle += (data->player->turnDirection * data->player->rotationSpeed);
-
-    // Calculate the movement step based on the walk direction and movement speed
-    double move_step = data->player->walkDirection * data->player->moveSpeed;
-
-    // Calculate the new x and y positions
-    double new_x = data->player->x + cos(data->player->rotationAngle) * move_step;
-    double new_y = data->player->y + sin(data->player->rotationAngle) * move_step;
-
-    // Check for wall collisions considering the player's size
-    if (ft_check_wall(data, new_x - PLAYER_WIDTH / 2, new_y - PLAYER_HEIGHT / 2) != 1 &&
-        ft_check_wall(data, new_x + PLAYER_WIDTH / 2, new_y - PLAYER_HEIGHT / 2) != 1 &&
-        ft_check_wall(data, new_x - PLAYER_WIDTH / 2, new_y + PLAYER_HEIGHT / 2) != 1 &&
-        ft_check_wall(data, new_x + PLAYER_WIDTH / 2, new_y + PLAYER_HEIGHT / 2) != 1)
+    int move_step;
+    double new_x;
+    double new_y;
+    move_step = data->player->walkDirection * data->player->moveSpeed;
+    new_x = data->player->x + cos(data->player->rotationAngle) * move_step;
+    new_y = data->player->y + sin(data->player->rotationAngle) * move_step;
+    
+    if (ft_check_wall(data, new_x,new_y) != 1)
     {
-        // Update the player's position if no collision is detected
         data->player->x = new_x;
         data->player->y = new_y;
     }
-
-    return 0;
+    return (0);
 }
+
+
 
 void view_player(t_data *data, int color)
 {
