@@ -6,7 +6,7 @@
 /*   By: ataoufik <ataoufik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 14:48:28 by ataoufik          #+#    #+#             */
-/*   Updated: 2024/07/30 13:18:46 by ataoufik         ###   ########.fr       */
+/*   Updated: 2024/08/01 22:47:11 by ataoufik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,16 @@ void init_data(t_data   *data,t_map *map, t_player *player)
     player->rotationAngle =  2;
     player->moveSpeed = 6.0;
     player->rotationSpeed = 3* (M_PI / 180);
+    player->walltexteur = (uint32_t*)malloc(sizeof(uint32_t) * WIDTH_TEXTUER * HEIGHT_TEXTUER);
+
+    int x, y;
+    for (x = 0; x < WIDTH_TEXTUER; x++)
+    {
+        for (y = 0; y < HEIGHT_TEXTUER; y++)
+            player->walltexteur[(WIDTH_TEXTUER * y) + x] = (x % 8 && y % 8) ? 0xFFAFFFFF : 0xFF000000;
+    }
     data->map = map;
     data->player = player;
+    //texteur 
     
 }

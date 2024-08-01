@@ -10,14 +10,15 @@
 #include <string.h> /////
 
 #include "MLX42.h"
-#define TILE_SIZE 64
-#define NBR_RAYS 1000
+#define WIDTH_TEXTUER 64
+#define HEIGHT_TEXTUER 64
+#define TILE_SIZE 128
+#define NBR_RAYS 2000
 #define WINDOW_WHIDTH 1000 ///
 #define WINDOW_HEIGHT 1000 ///
 #define WALL_STRIP_WIDTH 1
 #define SIZE_MINI_MAP 0.2
 #define FOV_ANGLE (60 * (M_PI / 180))
-
 
 typedef struct s_player
 {
@@ -30,6 +31,7 @@ typedef struct s_player
     float   rotationAngle;
     float   moveSpeed;
     mlx_image_t *img_player;
+    uint32_t *walltexteur; //// 
     float rotationSpeed;
 
 }   t_player;
@@ -46,6 +48,8 @@ typedef struct s_ray
 {
     float  dx;
     float  dy;
+    float   x_intercept;
+    float   y_intercept;
     bool    ray_is_up;
     bool    ray_is_down;
     bool    ray_is_left;
@@ -59,6 +63,16 @@ typedef struct s_data
     t_player *player;
     t_ray   *ray;
 }   t_data;
+
+
+// static uint32_t color_table[6] = {
+//     0xFF0000FF, // Blue
+//     0xFF00FF00, // Green
+//     0xFFFF0000, // Red
+//     0xFFFFFF00, // Yellow
+//     0xFFFF00FF, // Magenta
+//     0xFF00FFFF  // Cyan
+// };
 
 void ft_player(t_data *data);
 void init_data(t_data   *data,t_map *map, t_player *player);
@@ -80,7 +94,7 @@ float  ft_intrecetion(t_data *data, float rayangle,int color);
 ///part test 
 void rays(t_data *data, float ray_angle,int color);////
 
-void    ft_projection3D(t_data *data,float i,double ray_angle,double raydistance);
+void    ft_projection3D(t_data *data,float d,int sig , t_ray *ray, double raydistance);
 int ft_check_wall_intersection(t_data *data ,float x , float y);
 // void ft_rays_horizontal(t_data *data, float ray_angle);
 
@@ -109,7 +123,7 @@ int ft_check_wall_intersection(t_data *data ,float x , float y);
 // //
 // void draw_wall(t_data *data,float x,float wall_top_pixel ,float wall_bottom_pixel, int color);
 // //
-void draw_wall(t_data *data, int x, int y, int width, int height, int color);
+void draw_wall(t_data *data, int x, int y, int width, int height, double raydistance);
 // double ft_normalizeangle(double rayangle);
 // void     printf_para(t_data *data);
 //

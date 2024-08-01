@@ -1,0 +1,5 @@
+    mlx_texture_t* texture = mlx_load_png("path/to/your/image.png");
+    // Create an image from the texture
+    mlx_image_t* image = mlx_texture_to_image(mlx, texture);
+
+    

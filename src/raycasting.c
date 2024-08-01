@@ -6,7 +6,7 @@
 /*   By: ataoufik <ataoufik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 16:28:39 by ataoufik          #+#    #+#             */
-/*   Updated: 2024/07/30 13:18:34 by ataoufik         ###   ########.fr       */
+/*   Updated: 2024/08/01 15:19:05 by ataoufik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void rays(t_data *data, float ray_angle,int color)
 void    ft_cast_all_rays(t_data *data,int color)
 {
     int i;
-    float distance;
     float cdistance;
     float rayangle = data->player->rotationAngle - (FOV_ANGLE/ 2);
     i = 0;
@@ -36,33 +35,51 @@ void    ft_cast_all_rays(t_data *data,int color)
         data->ray->ray_is_up = !data->ray->ray_is_down;
         data->ray->ray_is_right = rayangle < 0.5 * M_PI || rayangle > 1.5 * M_PI;
         data->ray->ray_is_left = !data->ray->ray_is_right;
-        distance = ft_intrecetion(data,rayangle,color);
-        cdistance = distance * cos(rayangle - data->player->rotationAngle);
-        ft_projection3D(data,i,rayangle,cdistance);
+        // distance = ft_intrecetion(data,rayangle,color);
+        t_ray horizontal;
+        t_ray vertical;
+        horizontal = ft_rays_horizontal(data ,rayangle);
+        vertical = ft_rays_vertical(data ,rayangle);
+        float d_h = pow(horizontal.dx, 2) + pow(horizontal.dy , 2);
+        float d_v = pow(vertical.dx, 2) + pow(vertical.dy  , 2);;
+        if (d_h <= d_v)
+        {
+            draw_line(data, SIZE_MINI_MAP*data->player->x,SIZE_MINI_MAP* data->player->y,SIZE_MINI_MAP*(data->player->x +horizontal.dx) ,SIZE_MINI_MAP*(data->player->y+horizontal.dy),color);
+            cdistance = sqrt(d_h) * cos(rayangle - data->player->rotationAngle);
+            ft_projection3D(data,i,1, &horizontal, cdistance);
+        }
+        else
+        {
+            draw_line(data,SIZE_MINI_MAP*data->player->x,SIZE_MINI_MAP*data->player->y,SIZE_MINI_MAP*(data->player->x +vertical.dx),SIZE_MINI_MAP*(data->player->y+vertical.dy),color);
+            cdistance = sqrt(d_v) * cos(rayangle - data->player->rotationAngle);
+            ft_projection3D(data,i,0,&vertical,cdistance);
+        }
         rayangle += FOV_ANGLE / NBR_RAYS;
         i++;
     }
 }
 
-float  ft_intrecetion(t_data *data, float rayangle,int color)
-{
-    t_ray horizontal;
-    t_ray vertical;
-    horizontal = ft_rays_horizontal(data ,rayangle);
-    vertical = ft_rays_vertical(data ,rayangle);
-    float d_h = pow(horizontal.dx, 2) + pow(horizontal.dy , 2);
-    float d_v = pow(vertical.dx, 2) + pow(vertical.dy  , 2);;
-    if (d_h <= d_v)
-    {
-        draw_line(data, SIZE_MINI_MAP*data->player->x,SIZE_MINI_MAP* data->player->y,SIZE_MINI_MAP*(data->player->x +horizontal.dx) ,SIZE_MINI_MAP*(data->player->y+horizontal.dy),color);
-        return (sqrt(d_h));
-    }
-    else
-    {
-        draw_line(data,SIZE_MINI_MAP*data->player->x,SIZE_MINI_MAP*data->player->y,SIZE_MINI_MAP*(data->player->x +vertical.dx),SIZE_MINI_MAP*(data->player->y+vertical.dy),color);
-         return (sqrt(d_v));
-    }
-}
+// float  ft_intrecetion(t_data *data, float rayangle,int color)
+// {
+//     t_ray horizontal;
+//     t_ray vertical;
+//     horizontal = ft_rays_horizontal(data ,rayangle);
+//     vertical = ft_rays_vertical(data ,rayangle);
+//     float d_h = pow(horizontal.dx, 2) + pow(horizontal.dy , 2);
+//     float d_v = pow(vertical.dx, 2) + pow(vertical.dy  , 2);;
+//     if (d_h <= d_v)
+//     {
+//         draw_line(data, SIZE_MINI_MAP*data->player->x,SIZE_MINI_MAP* data->player->y,SIZE_MINI_MAP*(data->player->x +horizontal.dx) ,SIZE_MINI_MAP*(data->player->y+horizontal.dy),color);
+//         return (sqrt(d_h));
+//     }
+//     else
+//     {
+//         draw_line(data,SIZE_MINI_MAP*data->player->x,SIZE_MINI_MAP*data->player->y,SIZE_MINI_MAP*(data->player->x +vertical.dx),SIZE_MINI_MAP*(data->player->y+vertical.dy),color);
+//          return (sqrt(d_v));
+//     }
+// }
+
+
 float ft_normalizeangle(float rayangle)
 {
     rayangle = fmod(rayangle, 2.0 * M_PI);
@@ -104,7 +121,7 @@ t_ray ft_rays_horizontal(t_data *data, float ray_angle)
     float dy;
     dx = new_x - data->player->x;
     dy = new_y - data->player->y;
-    return (t_ray){dx,dy};
+    return (t_ray){dx,dy,new_x,new_y};
 }
 
 t_ray    ft_rays_vertical(t_data *data, float ray_angle)
@@ -140,6 +157,5 @@ t_ray    ft_rays_vertical(t_data *data, float ray_angle)
     float dy;
     dx = new_x - data->player->x;
     dy = new_y - data->player->y;
-    return (t_ray){dx,dy};
-    
+    return (t_ray){dx,dy,new_x,new_y};
 }
