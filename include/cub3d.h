@@ -88,8 +88,8 @@ void    ft_cast_all_rays(t_data *data,int color);
 
 
 float ft_normalizeangle(float rayangle);
-t_ray ft_rays_horizontal(t_data *data, float ray_angle);
-t_ray ft_rays_vertical(t_data *data, float ray_angle);
+t_ray ft_rays_horizontal(t_data *data, t_ray *ray,float ray_angle);
+t_ray ft_rays_vertical(t_data *data, t_ray *ray, float ray_angle);
 float  ft_intrecetion(t_data *data, float rayangle,int color);
 ///part test 
 void rays(t_data *data, float ray_angle,int color);////
