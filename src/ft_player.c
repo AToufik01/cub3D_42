@@ -6,7 +6,7 @@
 /*   By: ataoufik <ataoufik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 15:19:48 by ataoufik          #+#    #+#             */
-/*   Updated: 2024/07/30 09:54:13 by ataoufik         ###   ########.fr       */
+/*   Updated: 2024/08/03 10:49:16 by ataoufik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void    ft_player(t_data *data)
     int raycolor = 0xC47D7DFF;
     rest_image(data->player->img_player);
     ft_cast_all_rays(data,raycolor);
-    draw_circle(data,color);
-    view_player(data,fcolor);
+    // draw_circle(data,color);
+    // view_player(data,fcolor);
     // mlx_put_pixel(data->player->img_player,data->player->x,data->player->y,0xC47D7DFF);
 }

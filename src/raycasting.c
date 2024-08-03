@@ -6,7 +6,7 @@
 /*   By: ataoufik <ataoufik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 16:28:39 by ataoufik          #+#    #+#             */
-/*   Updated: 2024/08/03 08:41:15 by ataoufik         ###   ########.fr       */
+/*   Updated: 2024/08/03 10:12:33 by ataoufik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,13 @@ void    ft_cast_all_rays(t_data *data,int color)
         float d_v = pow(vertical.dx, 2) + pow(vertical.dy  , 2);;
         if (d_h <= d_v)
         {
-            draw_line(data, SIZE_MINI_MAP*data->player->x,SIZE_MINI_MAP* data->player->y,SIZE_MINI_MAP*(data->player->x +horizontal.dx) ,SIZE_MINI_MAP*(data->player->y+horizontal.dy),color);
+            // draw_line(data, SIZE_MINI_MAP*data->player->x,SIZE_MINI_MAP* data->player->y,SIZE_MINI_MAP*(data->player->x +horizontal.dx) ,SIZE_MINI_MAP*(data->player->y+horizontal.dy),color);
             cdistance = sqrt(d_h) * cos(rayangle - data->player->rotationAngle);
             ft_projection3D(data,i,1, &horizontal, cdistance);
         }
         else
         {
-            draw_line(data,SIZE_MINI_MAP*data->player->x,SIZE_MINI_MAP*data->player->y,SIZE_MINI_MAP*(data->player->x +vertical.dx),SIZE_MINI_MAP*(data->player->y+vertical.dy),color);
+            // draw_line(data,SIZE_MINI_MAP*data->player->x,SIZE_MINI_MAP*data->player->y,SIZE_MINI_MAP*(data->player->x +vertical.dx),SIZE_MINI_MAP*(data->player->y+vertical.dy),color);
             cdistance = sqrt(d_v) * cos(rayangle - data->player->rotationAngle);
             ft_projection3D(data,i,0,&vertical,cdistance);
         }

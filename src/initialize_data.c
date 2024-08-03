@@ -6,7 +6,7 @@
 /*   By: ataoufik <ataoufik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 14:48:28 by ataoufik          #+#    #+#             */
-/*   Updated: 2024/08/01 22:47:11 by ataoufik         ###   ########.fr       */
+/*   Updated: 2024/08/03 10:15:01 by ataoufik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ void init_data(t_data   *data,t_map *map, t_player *player)
     "1111111111111111111",
     "1011001001001000001",
     "1011000001000001001",
-    "1001001000000001111",
-    "1000110000000001001",
-    "1000000000000001001",
+    "1001001001110001111",
+    "1010110000000001001",
+    "1000000000111101001",
     "1001111110000001001",
     "1111000000000001011",
-    "1000000001000000001",
+    "1000000001001100001",
     "1111111111111111111"
 };
 
@@ -44,14 +44,14 @@ void init_data(t_data   *data,t_map *map, t_player *player)
     player->rotationAngle =  2;
     player->moveSpeed = 6.0;
     player->rotationSpeed = 3* (M_PI / 180);
-    player->walltexteur = (uint32_t*)malloc(sizeof(uint32_t) * WIDTH_TEXTUER * HEIGHT_TEXTUER);
+    // player->walltexteur = (uint32_t*)malloc(sizeof(uint32_t) * WIDTH_TEXTUER * HEIGHT_TEXTUER);
 
-    int x, y;
-    for (x = 0; x < WIDTH_TEXTUER; x++)
-    {
-        for (y = 0; y < HEIGHT_TEXTUER; y++)
-            player->walltexteur[(WIDTH_TEXTUER * y) + x] = (x % 8 && y % 8) ? 0xFFAFFFFF : 0xFF000000;
-    }
+    // int x, y;
+    // for (x = 0; x < WIDTH_TEXTUER; x++)
+    // {
+    //     for (y = 0; y < HEIGHT_TEXTUER; y++)
+    //         player->walltexteur[(WIDTH_TEXTUER * y) + x] = (x % 8 && y % 8) ? 0xFFAFFFFF : 0xFF000000;
+    // }
     data->map = map;
     data->player = player;
     //texteur 

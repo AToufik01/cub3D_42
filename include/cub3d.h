@@ -14,8 +14,8 @@
 #define HEIGHT_TEXTUER 64
 #define TILE_SIZE 128
 #define NBR_RAYS 2000
-#define WINDOW_WHIDTH 1000 ///
-#define WINDOW_HEIGHT 1000 ///
+#define WINDOW_WHIDTH 1500 ///
+#define WINDOW_HEIGHT 900 ///
 #define WALL_STRIP_WIDTH 1
 #define SIZE_MINI_MAP 0.2
 #define FOV_ANGLE (60 * (M_PI / 180))
