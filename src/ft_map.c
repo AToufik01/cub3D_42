@@ -6,7 +6,7 @@
 /*   By: ataoufik <ataoufik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 16:01:17 by ataoufik          #+#    #+#             */
-/*   Updated: 2024/07/30 12:26:08 by ataoufik         ###   ########.fr       */
+/*   Updated: 2024/08/03 11:06:39 by ataoufik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ void    draw_rect(t_data *data,float size_x,float size_y , int color)
     float y;
     x = 0;
     y = 0;
-    while (x < TILE_SIZE -1)// - 1 px
+    while (x < TILE_SIZE)// - 1 px
     {
         y = 0;
-        while (y <TILE_SIZE -1)// - 1px 
+        while (y <TILE_SIZE)// - 1px 
         {
             mlx_put_pixel(data->map->img_map,size_x + x,size_y + y,color);
             y++;

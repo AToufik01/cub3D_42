@@ -6,7 +6,7 @@
 /*   By: ataoufik <ataoufik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 16:28:39 by ataoufik          #+#    #+#             */
-/*   Updated: 2024/08/03 10:12:33 by ataoufik         ###   ########.fr       */
+/*   Updated: 2024/08/03 11:13:12 by ataoufik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,27 +58,6 @@ void    ft_cast_all_rays(t_data *data,int color)
         i++;
     }
 }
-
-// float  ft_intrecetion(t_data *data, float rayangle,int color)
-// {
-//     t_ray horizontal;
-//     t_ray vertical;
-//     horizontal = ft_rays_horizontal(data ,rayangle);
-//     vertical = ft_rays_vertical(data ,rayangle);
-//     float d_h = pow(horizontal.dx, 2) + pow(horizontal.dy , 2);
-//     float d_v = pow(vertical.dx, 2) + pow(vertical.dy  , 2);;
-//     if (d_h <= d_v)
-//     {
-//         draw_line(data, SIZE_MINI_MAP*data->player->x,SIZE_MINI_MAP* data->player->y,SIZE_MINI_MAP*(data->player->x +horizontal.dx) ,SIZE_MINI_MAP*(data->player->y+horizontal.dy),color);
-//         return (sqrt(d_h));
-//     }
-//     else
-//     {
-//         draw_line(data,SIZE_MINI_MAP*data->player->x,SIZE_MINI_MAP*data->player->y,SIZE_MINI_MAP*(data->player->x +vertical.dx),SIZE_MINI_MAP*(data->player->y+vertical.dy),color);
-//          return (sqrt(d_v));
-//     }
-// }
-
 
 float ft_normalizeangle(float rayangle)
 {

@@ -6,7 +6,7 @@
 /*   By: ataoufik <ataoufik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 14:48:28 by ataoufik          #+#    #+#             */
-/*   Updated: 2024/08/03 10:15:01 by ataoufik         ###   ########.fr       */
+/*   Updated: 2024/08/03 12:10:50 by ataoufik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,15 @@ void init_data(t_data   *data,t_map *map, t_player *player)
     player->walkDirection = 0;
     player->rotationAngle =  2;
     player->moveSpeed = 6.0;
-    player->rotationSpeed = 3* (M_PI / 180);
+    player->rotationSpeed = 5* (M_PI / 180);
+    player->walltexteur = mlx_load_png("./Tileable1e.png");
+    if (!player->walltexteur)
+    {
+        printf("eroor loading img \n");
+        exit(1);
+    }
+    else
+        printf("loaded\n");
     // player->walltexteur = (uint32_t*)malloc(sizeof(uint32_t) * WIDTH_TEXTUER * HEIGHT_TEXTUER);
 
     // int x, y;
