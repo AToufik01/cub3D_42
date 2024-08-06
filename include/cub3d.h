@@ -8,6 +8,8 @@
 #include <unistd.h>
 
 #include <string.h> /////
+#include "../src/libft/libft.h"
+#include "../src/get_next_line/get_next_line.h"
 
 #include "MLX42.h"
 #define WIDTH_TEXTUER 64
@@ -25,6 +27,7 @@ typedef struct s_player
     float  x;
     float  y;
     int  radius;
+    char isFacing;
     double  view_player;
     int     turnDirection;
     int     walkDirection;
@@ -32,10 +35,19 @@ typedef struct s_player
     float   moveSpeed;
     mlx_image_t *img_player;
     // uint32_t *walltexteur;
-    mlx_texture_t*walltexteur; //// 
+    // mlx_texture_t*walltexteur; //// 
     float rotationSpeed;
 
 }   t_player;
+
+typedef struct s_texture
+{
+    char *north_texture;
+    char *south_texture;
+    char *east_texture;
+    char *west_texture;
+}           t_texture;
+
 
 typedef struct s_map
 {
@@ -44,7 +56,22 @@ typedef struct s_map
     int height;
     mlx_image_t *img_map;
     char **arr_map;
+    // char        **map;
 }   t_map;
+typedef struct s_color
+{
+    int red;
+    int green;
+    int blue;
+}           t_color;
+
+typedef struct s_element
+{
+    char    *color_path;
+    t_color floor_color;
+    t_color ceiling_color;
+}           t_element;
+
 typedef struct s_ray
 {
     float  dx;
@@ -59,21 +86,21 @@ typedef struct s_ray
 
 typedef struct s_data
 {
+    int		    j;
+    int 	    i;
+    int		    size;
+    int         fd;
+    char        *string;
+    t_texture   *texture;
+    t_list      *texturel;
+    t_list      *list;
+    t_element   element;
     mlx_t   *mlx;
     t_map *map;
     t_player *player;
     t_ray   *ray;
 }   t_data;
 
-
-// static uint32_t color_table[6] = {
-//     0xFF0000FF, // Blue
-//     0xFF00FF00, // Green
-//     0xFFFF0000, // Red
-//     0xFFFFFF00, // Yellow
-//     0xFFFF00FF, // Magenta
-//     0xFF00FFFF  // Cyan
-// };
 
 void ft_player(t_data *data);
 void init_data(t_data   *data,t_map *map, t_player *player);
@@ -102,30 +129,48 @@ int ft_check_wall_intersection(t_data *data ,float x , float y);
 
 
 
-////
-// void ft_update_env(void  *data);
+// void draw_wall(t_data *data, int x, int y, int width, int height, double raydistance);
 
-// void ft_render_map(t_data *data);
-// int ft_check_wall(t_data *data, int x,int y);
 
-// // raycasting
-// void    ft_cast_all_rays(t_data *data,int color);
-// float  ft_intrecetion(t_data *data, double rayangle,int color);
-// t_ray ft_rays_horizontal(t_data *data, double ray_angle);
-// t_ray ft_rays_vertical(t_data *data, double ray_angle);
-// // void initialize_rays(t_data *data,int color);
-// void add_1px(t_data *data);
-// // void draw_view_rays(t_data *data,float rayangle ,int color);
-// void draw_view_rays(t_data *data,float rayangle ,double distance,int color);
-// void draw_line(t_data *data, float x0, float y0, float x1, float y1, int color);
-// //
+//first_parse.c
+void    inite_data_player(t_data *data);
+void    read_data(int *fd, char *av);
+void    fill_list(t_data *data, char *av);
+int     check_char(char *s);
+int     element_exist(t_list *head, char *d);
+int     all_element_exist(t_data *data);
 
-// void rest_image(mlx_image_t *image);
-// //
-// void draw_wall(t_data *data,float x,float wall_top_pixel ,float wall_bottom_pixel, int color);
-// //
-void draw_wall(t_data *data, int x, int y, int width, int height, double raydistance);
-// double ft_normalizeangle(double rayangle);
-// void     printf_para(t_data *data);
-//
+//check_map.c
+int     map(t_list *ptr, t_data *data);
+void    set_map(t_list *ptr, t_data *data);
+int     position_of_player(t_data *data);
+int     is_valid_Map(t_data * data);
+
+//get-element.c
+int     set_color(t_color *color, char *color_path);
+void    set_element(t_data *data, char *s, int *size, char c);
+void    get_element(t_data *data, char *s, int *size, int *i);
+int     get_color(t_element *element, char *color, char type);
+void    setup_textures_colors(t_data *data);
+t_list  *get_map(t_data *data);
+
+//free_data.c
+void    free_array(char **array);
+void    print_error(char *str);
+void    free_data(t_data *data, int flag);
+
+
+//utils.c
+void    handle_space(char *s, int *i, int *j);
+int     check_wall(char *s, char c);
+int     another_char(char *s, char *ptr);
+int     is_adjacent(t_data *data, char **map, char space, char c);
+
+//linked_list.c
+t_list	*ft_lstnew(void *content, char c);
+t_list	*ft_lstlast(t_list *lst);
+void	ft_lstadd_back(t_list **lst, t_list *new);
+void	ft_lstclear(t_list **lst);
+int     ft_lstsize(t_list *lst);
+
 #endif
