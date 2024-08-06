@@ -6,7 +6,7 @@
 /*   By: ataoufik <ataoufik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 14:30:18 by ataoufik          #+#    #+#             */
-/*   Updated: 2024/08/04 16:36:37 by ataoufik         ###   ########.fr       */
+/*   Updated: 2024/08/06 17:04:13 by ataoufik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,12 @@
 
 void    inite_data_player(t_data *data)
 {
+    data->player->walltexteur = mlx_load_png("./wall_64.png");
+    if (!data->player->walltexteur)
+    {
+        printf("Error \"load png\"\n");
+        exit(1);
+    }
     data->player->radius = 5;
     data->player->turnDirection = 0;
     data->player->walkDirection = 0;

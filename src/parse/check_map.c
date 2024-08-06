@@ -90,8 +90,8 @@ int     position_of_player(t_data *data)
                 || data->map->arr_map[y][x] == 'E' || data->map->arr_map[y][x] == 'W')
             {
                 data->player->isFacing = data->map->arr_map[y][x];
-                data->player->x = (float)x;
-                data->player->y = (float)y;
+                data->player->x = (float)x * TILE_SIZE;
+                data->player->y = (float)y * TILE_SIZE;
                 i++;
             }
         }

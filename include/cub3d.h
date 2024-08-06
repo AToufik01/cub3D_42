@@ -14,11 +14,11 @@
 #include "MLX42.h"
 #define WIDTH_TEXTUER 64
 #define HEIGHT_TEXTUER 64
-#define TILE_SIZE 128
+#define TILE_SIZE 64
 #define NBR_RAYS 2000
-#define WINDOW_WHIDTH 1500 ///
+#define WINDOW_WHIDTH 2000 ///
 #define WINDOW_HEIGHT 900 ///
-#define WALL_STRIP_WIDTH 1
+#define WALL_STRIP_WIDTH 0.5
 #define SIZE_MINI_MAP 0.05
 #define FOV_ANGLE (60 * (M_PI / 180))
 
@@ -35,7 +35,7 @@ typedef struct s_player
     float   moveSpeed;
     mlx_image_t *img_player;
     // uint32_t *walltexteur;
-    // mlx_texture_t*walltexteur; //// 
+    mlx_texture_t*walltexteur; //// 
     float rotationSpeed;
 
 }   t_player;
